@@ -11,7 +11,12 @@ const InputTextComponent: FunctionComponent<InputTextProps> = ({
     onChange(event.target.value);
   };
   return (
-    <TextField fullWidth multiline onChange={handleChange} />
+    <TextField
+      inputProps={{ "data-testid": "textInput" }}
+      fullWidth
+      multiline
+      onChange={handleChange}
+    />
   )
 }
 

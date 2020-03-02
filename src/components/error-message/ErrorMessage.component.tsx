@@ -11,7 +11,12 @@ const ErrorMessageComponent: FunctionComponent<ErrorMessageProps> = ({
 }) => {
   return (
     <Box p={2}>
-      <p className={styles.errorMessage}>{errorMessage}</p>
+      <p
+        data-testid="errorMessage"
+        className={styles.errorMessage}
+      >
+        {errorMessage}
+      </p>
     </Box>
   );
 }

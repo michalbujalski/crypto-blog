@@ -8,7 +8,15 @@ interface FormattedTextProps {
 const FormattedTextComponent: FunctionComponent<FormattedTextProps> = ({
   formattedText
 }) => {
-  return <TextField disabled fullWidth multiline value={formattedText} />
+  return (
+    <TextField
+      disabled
+      fullWidth
+      multiline
+      value={formattedText}
+      inputProps={{ "data-testid": "formattedText" }}
+    />
+  );
 }
 
 export default FormattedTextComponent;
