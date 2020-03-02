@@ -51,17 +51,22 @@ export const savePriceToCache = (coinPrice: CoinPrice) => {
 
 export const getPriceFromCache = (coinSymbol: string) => priceCache.get(coinSymbol)
 
-export const getCoinPrice = async (coinSymbol:string): Promise<number> => {
+export const getCoinPrice = async (coinSymbol:string): Promise<string> => {
   if (!getPriceFromCache(coinSymbol)) {
     const coin: Coin = await getCoin(coinSymbol);
     const coinPrice: CoinPrice = await fetchPrice(coin.id);
     savePriceToCache(coinPrice);
-    return coinPrice.value;
+    return parsePrice(coinPrice.value);
   }
   const price = getPriceFromCache(coinSymbol);
   if (price) {
-    return price.value;
+    return parsePrice(price.value);
   }
 
   throw new Error(`No price with code ${coinSymbol}`);
 }
+
+const parsePrice = (price: number) => price.toLocaleString(undefined, {
+  style: 'currency',
+  currency: 'USD'
+});

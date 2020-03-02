@@ -58,7 +58,7 @@ describe('coin repository', () => {
     
     const returnedPrice = await coinRepository.getCoinPrice('BTC');
     expect(api.fetchPrice.mock.calls).toHaveLength(1);
-    expect(returnedPrice).toEqual(coinPrice.value);
+    expect(returnedPrice).toEqual(`$${price}`);
   })
   it('if price cached then do not fetch price from api', async () => {
     const price = 541.21;
@@ -67,6 +67,6 @@ describe('coin repository', () => {
     
     const returnedPrice = await coinRepository.getCoinPrice('BTC');
     expect(api.fetchPrice.mock.calls).toHaveLength(1);
-    expect(returnedPrice).toEqual(coinPrice.value);
+    expect(returnedPrice).toEqual(`$${price}`);
   })
 })

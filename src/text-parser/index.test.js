@@ -60,4 +60,13 @@ describe('text parser',() => {
     const result = await textParser.getCurrencyData(tag);
     expect(result).toBe('BTC')
   })
+  it('replaces matching tags with values', () => {
+    const result = textParser.replaceTagsWithValues(
+      ['Litecoin', '$232'],
+      'some text {{ Name/LTC }}, {{Price/232}} rest of the text'
+    )
+    expect(result).toEqual(
+      'some text Litecoin, $232 rest of the text'
+    );
+  })
 })

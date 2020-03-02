@@ -26,8 +26,10 @@ export const parseTag = (rawTag: string): Tag => {
   return { method: parseMethod(sanitized[0]), argument: sanitized[1] };
 }
 
+
+const regex = /{{( +)?\w+( +)?\/( +)?\w+( +)?}}/g;
+
 export const findTags = (text: string): Tag[] => {
-  const regex = /{{( +)?\w+( +)?\/( +)?\w+( +)?}}/g;
   let match = regex.exec(text);
   let tags: Array<Tag> = [];
   while( match != null ){
@@ -37,13 +39,34 @@ export const findTags = (text: string): Tag[] => {
   return tags;
 }
 
+export const replaceTagsWithValues = (
+  arr: string[], text: string
+): string => {
+  arr = arr.reverse();
+  let match = regex.exec(text);
+  let parsedText = text;
+  while( match != null ){
+    const value = arr.pop()
+    parsedText = parsedText.replace(match[0], value || '');
+    match = regex.exec(text);
+  }
+  return parsedText;
+}
+
+export const parseText = async (rawText:string): Promise<string> => {
+  const tags = findTags(rawText);
+  const requests = createRequests(tags);
+  const values = await Promise.all(requests);
+  return replaceTagsWithValues(values, rawText);
+}
+
 export const createRequests = (
   tags: Tag[]
-):Array<Promise<number>|Promise<string>> => (
+):Array<Promise<string>> => (
   tags.map((tag: Tag) => getCurrencyData(tag))
 )
 
-export const getCurrencyData = (tag: Tag):Promise<number>|Promise<string> => {
+export const getCurrencyData = (tag: Tag):Promise<string> => {
   switch(tag.method){
     case Method.Name:
       return getCoinName(tag.argument);

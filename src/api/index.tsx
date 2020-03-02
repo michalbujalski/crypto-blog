@@ -9,7 +9,7 @@ export const fetchCoins = async (): Promise<Array<Coin>> => {
 }
 
 export const fetchPrice = async (coinId: string): Promise<CoinPrice> => {
-  const response = await fetch(`${BASE_URL}/exchanges/${coinId}`);
+  const response = await fetch(`${BASE_URL}/tickers/${coinId}`);
   const data = await response.json();
 
   return {
