@@ -26,7 +26,7 @@ export const parseTag = (rawTag: string): Tag => {
   return { method: parseMethod(sanitized[0]), argument: sanitized[1] };
 }
 
-export const findTags = (text: string): Array<Tag> => {
+export const findTags = (text: string): Tag[] => {
   const regex = /{{( +)?\w+( +)?\/( +)?\w+( +)?}}/g;
   let match = regex.exec(text);
   let tags: Array<Tag> = [];
@@ -38,7 +38,7 @@ export const findTags = (text: string): Array<Tag> => {
 }
 
 export const createRequests = (
-  tags: Array<Tag>
+  tags: Tag[]
 ):Array<Promise<number>|Promise<string>> => (
   tags.map((tag: Tag) => getCurrencyData(tag))
 )
