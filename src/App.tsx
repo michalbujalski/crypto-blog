@@ -4,18 +4,30 @@ import InputTextComponent from './components/input-text/InputText.component';
 import FormattedTextComponent from './components/formatted-text/FormattedText.component';
 import { parseText } from './text-parser';
 import ErrorMessageComponent from './components/error-message/ErrorMessage.component';
+import LoaderComponent from './components/loader/Loader.component';
+
+interface AppState {
+  isLoading: boolean,
+  text: string,
+  error: string|null
+}
+
+const initState: AppState = {
+  isLoading: false,
+  text: '',
+  error: null
+}
 
 function App() {
-  const [text, setText] = useState<string>('')
-  const [error, setError] = useState<string|null>(null);
+  const [state, setState] = useState<AppState>(initState);
   const handleChange = (newText:string) => {
     (async () => {
       try {
-      const formattedText = await parseText(newText);
-      setError(null);
-      setText(formattedText);
+        setState({...state, isLoading: true});
+        const formattedText = await parseText(newText);
+        setState({...state, isLoading: false, error: null, text: formattedText});
       } catch (error) {
-        setError(error.message);
+        setState({...state, isLoading: false, error: error.message, text: newText});
       }
     })();
   }
@@ -29,11 +41,14 @@ function App() {
         </Grid>
         <Grid item xs={6}>
           <Box p={2}>
-            <FormattedTextComponent formattedText={text}/>
+            <FormattedTextComponent formattedText={state.text}/>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          {error && <ErrorMessageComponent errorMessage={error}/>}
+          {state.error && <ErrorMessageComponent errorMessage={state.error}/>}
+        </Grid>
+        <Grid item xs={12}>
+          {state.isLoading && <LoaderComponent />}
         </Grid>
       </Grid>
     </div>

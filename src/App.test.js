@@ -29,6 +29,6 @@ describe('App component',() => {
       await userEvent.type(input, 'some input')
     })
     const errorMessage = getByTestId('errorMessage');
-    expect(errorMessage).toBeInTheDOM();
+    expect(errorMessage).toBeInTheDocument();
   })
 })
