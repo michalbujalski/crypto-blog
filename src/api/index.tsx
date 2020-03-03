@@ -18,7 +18,3 @@ export const fetchPrice = async (coinId: string): Promise<CoinPrice> => {
     currency: 'USD'
   } as CoinPrice
 };
-
-export const fetchName = (currencySYmbol: string): Promise<string> => {
-  return Promise.resolve(currencySYmbol);
-};
