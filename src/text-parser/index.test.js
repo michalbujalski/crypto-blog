@@ -9,6 +9,18 @@ describe('text parser',() => {
 
     expect(result).toMatchObject({ method: Method.Name, argument: 'BTC'});
   })
+  it('tries to parse incorrect tag string', () => {
+    const testString = '{{prie/BTC}}';
+    expect(() => textParser.parseTag(testString)).toThrow();
+  })
+  it('tries to parse incorrect string', () => {
+    const testString = '{{prie/BTC}';
+    expect(textParser.findTags(testString)).toHaveLength(0);
+  })
+  it('tries to parse correct string', () => {
+    const testString = '{{Name/BTC}}';
+    expect(textParser.findTags(testString)).toHaveLength(1);
+  })
   it('finds all tags in input text with properly formatted tags', () => {
     const testString = '{{ Name/BTC }}, {{ Price/CES }} some other text';
     const result = textParser.findTags(testString);
@@ -67,6 +79,15 @@ describe('text parser',() => {
     )
     expect(result).toEqual(
       'some text Litecoin, $232 rest of the text'
+    );
+  })
+  it('if no matching tags then return original string', () => {
+    const result = textParser.replaceTagsWithValues(
+      [],
+      'some text {{ Name/LTC }}, {{Price/232}} rest of the text'
+    )
+    expect(result).toEqual(
+      'some text {{ Name/LTC }}, {{Price/232}} rest of the text'
     );
   })
 })

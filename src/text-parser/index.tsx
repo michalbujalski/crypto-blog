@@ -26,29 +26,32 @@ export const parseTag = (rawTag: string): Tag => {
   return { method: parseMethod(sanitized[0]), argument: sanitized[1] };
 }
 
-
-const regex = /{{( +)?\w+( +)?\/( +)?\w+( +)?}}/g;
-
 export const findTags = (text: string): Tag[] => {
-  let match = regex.exec(text);
+  const tagRegex = getTagRegex();
+  let match = tagRegex.exec(text);
   let tags: Array<Tag> = [];
   while( match != null ){
     tags.push(parseTag(match[0]));
-    match = regex.exec(text);
+    match = tagRegex.exec(text);
   }
   return tags;
 }
 
+const getTagRegex = () => /{{( +)?\w+( +)?\/( +)?\w+( +)?}}/g;
+
 export const replaceTagsWithValues = (
   arr: string[], text: string
 ): string => {
+  const tagRegex = getTagRegex();
   arr = arr.reverse();
-  let match = regex.exec(text);
+  let match = tagRegex.exec(text);
   let parsedText = text;
   while( match != null ){
     const value = arr.pop()
-    parsedText = parsedText.replace(match[0], value || '');
-    match = regex.exec(text);
+    if (value) {
+      parsedText = parsedText.replace(match[0], value);
+    }
+    match = tagRegex.exec(text);
   }
   return parsedText;
 }
