@@ -1,44 +1,42 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Descirption
 
-In the project directory, you can run:
+## Description
 
-### `npm start`
+This is a simple input text parsert that inserts fetched values according to specified rules.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Assumptions
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Site containes two fields - input and output
+- You can input any text into left field
+- The text is parsed acordding to these rules:
 
-### `npm test`
+```{{ Name/<crypto_code> }}```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+returns currency name e. g. `{{ Name/BTC }}` returns `Bitcoin`
 
-### `npm run build`
+```{{ Price/<crypto_code> }}```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+returns currency name e. g. `{{ Price/BTC }}` returns `$6110.12`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- All the data is fetched from https://api.coinpaprika.com
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Demo 
 
-### `npm run eject`
+See working code at:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+https://michalbujalski.github.io/crypto-blog-site/
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Run dev
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`npm start`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Run tests
 
-## Learn More
+`npm test`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Build production
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`npm run build`
+
